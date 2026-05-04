@@ -1,0 +1,10 @@
+# faire un calcul et afficher le résultat avec un nombre entier
+# Partie 1 : Déclaration des variables
+
+a = float(input("Merci de saisir la valeur A"))
+b = float(input("Merci de saisir la valeur B"))
+# Partie 2 : Traitement
+Resultat = a * b
+
+# Partie 3 : Afficher le résultat : 
+print ("Le résultat est : " + str (Resultat))
