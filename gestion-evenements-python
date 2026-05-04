@@ -1,0 +1,111 @@
+events = {}
+
+def afficher_menu():                                  #Titre du Menu
+    print ("Menu")
+    print("1. Créer un évènement")                    #L'option 1 consiste à créer un évènement
+    print("2. Lister les évènements")                 #L'option 2 consite à lister les évènements
+    print("3. Réserver un événement")                 #L'option 3 consiste à réserver un évènement
+    print("4. Annuler une réservation")               #L'option 4 consiste à annuler une réservation
+    print("5. Supprimer un événement")                #L'option 5 consiste à supprimer un évènement
+    print("0. Quitter")                               #L'option 0 consiste à quitter
+
+def creer_evenement():                                #fonction qui sert à créer un évènement
+    nom = input("Entrer le nom de l'événement : ")    #L'utilisateur rentre le nom de l'évènement
+    if nom in events:
+        print("ERREUR : Un événement identique est déjà présent")  #Message d'erreur le nom saisi par l'utilisateur est déjà présent
+        return
+    try:
+        capacite = int(input("Veuiller indiquer la capacité maximale : "))   #L'utilisateur rentre le nombre de capacité
+        if capacite <= 0:
+            print("ERREUR : La capacité doit être strictement supérieur à 0.")   #Message d'erreur le nombre de capacité doit être supérieur à 0
+            return
+        events[nom] = {'capacite': capacite, 'reservations': {}}           # Crée dict évènement
+        print("OK : L'évènement a été créé avec succès")                   #L'évènement a été créer
+    except ValueError:
+        print("ERREUR : La capacité doit être un entier")                  #Il faut rentrer un entier
+
+def lister_evenements():                                #fonction qui sert à lister les évènements
+    if not events:                                      #Si dictionnaire est vide
+        print("Aucun événement.")                       #Message vide
+        return
+    print("\nListe des événements :")                    
+    print("Nom           Places restantes")
+    for nom in events:  
+        data = events[nom]                              #Récupère les données des évènements
+        capacite = data['capacite']
+        reserve_total = sum(data['reservations'].values())       #Il fait le total des places réservées
+        restantes = capacite - reserve_total
+        if restantes == 0:                                       #Si toutes les places sont réservées
+            etat = "COMPLET"                                     #Il renvoie COMPLET
+        else:                                                    #Sinon
+            etat = str(restantes) + "/" + str(capacite)         #Le format utilisé est 5/10
+        print(nom.ljust(15) + "  " + etat)                      #Pour avoir un affichage alligné
+
+
+
+def reserver_evenement():                               #fonction qui sert à réserver un évènement
+    nom = input("Veuillez saisir le nom de l'événement : ")  #L'utilisateur doit saisir le nom de l'évènement
+    if nom not in events:
+        print("ERREUR : Cet événement n'existe pas.")         #Le nom saisi par l'utilisateur n'existe pas
+        return
+    client = input("Veuillez saisir le nom du client : ")    #L'utilisateur doit saisir son nom de réservation
+    try:
+        nb = int(input("Indiquez le nombre de places souhaitées : "))   #L'utilisateur doit saisir le nombre de places qu'il veut réserver
+        if nb <= 0:
+            print("ERREUR : Le nombre de places doit être supérieur à 0.")    #Le nombre de place doit être supérieur à 0
+            return
+        data = events[nom]                                    #données des évènements
+        if client in data['reservations']:                    # Si l'utilisateur a déjà réservé pour cet évènement
+            print("ERREUR : Ce client a déjà effectué une réservation pour cet événement.")   #Un message d'erreur est renvoyé
+            return
+        capacite = data['capacite']                          
+        reserve_total = sum(data['reservations'].values())            #Total de places réservées
+        restantes = capacite - reserve_total                          #Nombre de places restantes
+        if nb > restantes:                                            #Si le nombre de places que l'utilisateur veut réserver est supérieur aux nombres de places restantes
+            print("ERREUR : Il n'y a pas assez de places disponibles ( " + str(restantes) + " places restantes).")  #un message d'erreur est renvoyé
+            return
+        data['reservations'][client] = nb
+        print("OK : La réservation a été enregistrée avec succès")     #La réservation est enregistrée
+    except ValueError:
+        print("ERREUR : Le nombre de places doit être un entier.")       #Il faut saisir un entier
+
+def annuler_reservation():
+    nom = input("Veuillez indiquer le nom de l'évènement : ")           #L'utilisateur saisi le nom de l'évènement
+    if nom not in events:
+        print("ERREUR : Cet évènement n'est pas enregistré")           #L'évènement saisi n'existe pas
+        return 
+    client = input("Veuillez indiquer le nom du client : ")            #Saisir le nom du client
+    data = events[nom]
+    if client not in data['reservations']:
+        print("ERREUR : Aucune réservation trouvée pour ce client.")      #pas de réservation pour ce client
+        return
+    del data['reservations'][client]
+    print("OK : La réservation a été annulée avec succès")              #La réservation a été annulée
+
+def supprimer_evenement():                  #fonction pour supprimer un évènement
+    nom = input("Veillez saisir le nom de l'évènement à supprimer : ")     
+    if nom not in events:
+        print("ERREUR : Cet évènement n'est pas enregistré")
+        return
+    del events[nom]  
+    print("OK : L'évènement a été supprimé avec succès")
+
+
+while True:
+    afficher_menu()
+    choix = input("Votre choix : ")
+    if choix == '1':                       #option 1
+        creer_evenement()  
+    elif choix == '2':                     #option 2
+        lister_evenements()
+    elif choix == '3':                     #OPTION 3
+        reserver_evenement()
+    elif choix == '4':                    #option 4
+        annuler_reservation()
+    elif choix == '5':                    #option 5
+        supprimer_evenement()
+    elif choix == '0':                     #option 6
+        print("A bientot!")
+        break
+    else:
+        print("ERREUR : Choix invalide")
