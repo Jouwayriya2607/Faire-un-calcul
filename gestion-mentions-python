@@ -1,0 +1,31 @@
+#on crée une boucle qui permet de donner la mention en fonction de la note 
+def mention(note):
+    if note < 10:
+        return "Insuffisant" #le programme affiche insuffisant si la note est inférieure à 1
+    elif note >= 10 and note <= 11:
+        return "Passable" #le programme renvoi la mention passable si la note est comprise entre 10 et 11
+    else:
+        return "Bien" #autrement le programme renvoi la mention bien
+
+nb_utilisateurs = int(input("Combien d'utilisateurs ? ")) #on demande à l'utilisateur combien d'utilisateurs il souhaite saisir
+
+for i in range(nb_utilisateurs):
+    nom = input("Nom utilisateur : ") #on demande à l'utilisateur le nom qu'il souhaite saisir
+    nb_notes = int(input("Combien de notes ? ")) #on demande à l'utilisateur combien de notes il souhaite saisir
+    print(nom, nb_notes) #on affiche le nom choisi par l'utilisateur et son nombre de note 
+    
+    derniere_note = 0
+    j = 1
+    while j <= nb_notes: #on utilise la boucle "tant que"
+        note = float(input("Note " + str(j) + " : "))
+        if note < 0 or note > 20:
+            print("Erreur. Il faut rentrer une note entre 0 et 20") #le programme affiche un message d'erreur si la note est supérieure a 20 ou inférieure a 0
+        else:
+            print("Mention:", mention(note)) 
+            derniere_note = note
+        j = j + 1
+    
+   
+    print("RÉCAPITULATIF:", nom, nb_notes, "notes →", mention(derniere_note)) #on affiche le récapitilatif de l'utilisateur. Son nom son nombre de note et sa mention
+
+print("Programme terminé et réalisé par Jouwayriya ") #cela indique la fin du programme 
