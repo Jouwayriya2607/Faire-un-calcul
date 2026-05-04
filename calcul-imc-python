@@ -1,0 +1,54 @@
+from datetime import date  # afin de récupérer la date actuelle
+
+# Saisie des informations auprès de l'utilisateur
+sexe = input("Sexe (F/H) : ") #L'utilisateur rentre son sexe
+nom = input("Nom : ") #L'utilisateur rentre son nom
+prenom = input("Prénom : ") #L'utilisateur rentre son prénom
+annee_naissance = int(input("Quelle est votre année de naissance : ")) #L'utilisateur rentre son année de naissance
+taille = float(input("Donnez votre taille en m : ")) #L'utilisateur saisie sa taille en m
+poids = float(input("Donnez votre poids en kg : ")) #L'utilisateur saisi son poids en kg
+
+# Fonctions
+def calculer_age(annee_naissance):
+    annee_actuelle = date.today().year      # Récupère l'année actuelle grâce à la date du système
+    return annee_actuelle - annee_naissance  # calcule l'âge en faisant une soustraction de l'année actuelle et l'année de naissance
+
+def calculer_imc(poids, taille):    
+    return poids / (taille ** 2)  # calcule l'IMC avec la formule poids / taille² 
+
+def categorie_imc(imc):        # détermine la catégorie de corpulence en fonction de la valeur de l'IMC
+    if imc < 18.5:
+        return "maigreur"        
+    elif imc < 25:
+        return "normal"          
+    elif imc < 30:
+        return "surpoids"        
+    else:
+        return "obésité"       
+
+def afficher_resume(sexe, nom, prenom, age, taille, poids, imc, categorie):    
+     # choisit le texte en fonction du sexe saisi (F ou H)
+    if sexe == "F":
+        texte_sexe = "Mme"
+    else:              # si ce n'est pas F, on considère H
+        texte_sexe = "M"
+
+    print("Résumé de vos coordonnées")  # titre du résumé
+    print("Vous êtes " + texte_sexe + ".")  # affiche si la personne est un homme ou une femme
+    print("Votre nom est " + nom)    # affiche le nom
+    print("Votre prénom est " + prenom)  # affiche le prénom
+    print("Vous avez " + str(age) + " ans") # affiche l'âge calculé
+    print("Vous mesurez " + str(taille) + " m") # affiche la taille en mètres
+    print("Vous pesez " + str(poids) + " kg")  # affiche le poids en kg
+    print("Votre IMC est de " + str(imc) + " (" + categorie + ")") # affiche l'IMC et la catégorie de corpulence
+    print("Programme réalisé par Jouwayriya et Raphaella dans le cadre du cours Python avec Mr Touati")   # phrase de signature du programme
+
+
+
+
+# Calculs
+age = calculer_age(annee_naissance) # appel de la fonction pour obtenir l'âge
+imc = calculer_imc(poids, taille)   # appel de la fonction pour obtenir l'IMC
+categorie = categorie_imc(imc)      # appel de la fonction pour obtenir la catégorie
+afficher_resume(sexe, nom, prenom, age, taille, poids, imc, categorie) 
+# affichage du résumé final
