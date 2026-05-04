@@ -1,1 +1,23 @@
+# Demander une note sur 20
+note = int(input("Entrez une note sur 20 : "))
 
+# Vérifier que la note est bien entre 0 et 20
+if note < 0 or note > 20:
+    print("Note invalide. Veuillez entrer une note entre 0 et 20.")
+else:
+    # Chaîne de conditions en fonction de l'appréciation
+    if note < 10:
+        print("Insuffisant")
+    elif note < 12:         
+        print("Passable")
+    elif note < 14:
+        print("Assez bien")
+    elif note < 16:
+        print("Bien")
+    else:                    
+        print("Très bien")
+    
+    if note >= 10:
+        print("Bravo, tu as la moyenne !")
+    else:
+        print("Tu peux mieux faire, travaille encore.")
